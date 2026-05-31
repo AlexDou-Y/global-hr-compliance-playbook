@@ -9,19 +9,18 @@
 
 > Global HR Compliance & Operations Expert — A Claude Code Skill for generating country-specific employment compliance handbooks, querying local labor law details, and answering overseas HR practical questions.
 
-This Skill encapsulates global employment compliance research as a reusable workflow: from scope confirmation and official-source retrieval, to authoritative-interpretation supplementation, per-chapter spec compliance, and three-stage quality validation. Every fact must be sourced; uncertainty is flagged explicitly. Output is suitable for direct use in enterprise internal management decisions.
+This Skill is built on the long-term frontline experience of overseas HR practitioners in multinational HR management, together with the methodology accumulated from compiling employment compliance handbooks for China, Japan, Singapore, the UAE, and other jurisdictions. Their core competencies — framework design, research logic, information verification, content organization, linguistic style, formatting conventions, and operational guidance — have been systematically distilled into a reproducible and iterable AI Skill. Through anti-hallucination mechanisms — "mandatory source citation," "explicit uncertainty degradation," and "three-stage quality cross-validation (Structure pass → Content pass → Practice pass)" — it constrains AI output for accuracy, stability, and traceability, helping enterprise HR teams quickly generate jurisdiction-specific employment compliance handbooks.
 
 ## What It Does
 
-This Skill consolidates frontline experience in overseas HR management and labor-relations practice across multinational enterprises, integrating handbook-compilation methodology accumulated from China, Japan, Singapore, the UAE, and other jurisdictions. Through anti-hallucination mechanisms — **mandatory source citation, explicit uncertainty degradation, and three-stage quality cross-validation (Structure pass → Content pass → Practice pass)** — it constrains AI output for accuracy and traceability, helping enterprise HR teams generate jurisdiction-specific compliance handbooks quickly and reliably. Based on internal testing, end-to-end generation of a full handbook from scratch takes approximately 50–60 minutes.
+The Skill auto-routes requests by complexity, supporting four operating modes:
 
-Beyond full handbook generation (**Mode A**), the Skill also supports the following extended scenarios:
+- **Full handbook generation (Mode A)**: For "compile a complete employment compliance handbook for a country/region" — produces a Markdown handbook in the standard 14-chapter structure; based on internal testing, end-to-end generation of a full handbook from scratch takes approximately 40–60+ minutes; if existing source materials (legal texts, government guidance, law-firm reports) are provided, the duration shortens accordingly;
+- **Quick lookup (Mode B)**: For point-fact questions — minimum wage, overtime rates, probation period, social-security ratios, severance — performs targeted retrieval against official sources and returns a concise answer with source links and effective dates;
+- **Practice Q&A (Mode C)**: For scenario-based operational questions — how to terminate compliantly in Germany, how to assign expatriates to Singapore, how to execute large-scale layoffs in France — returns an actionable plan structured as "Compliance steps + Risk points + Required documents";
+- **Incremental update (Mode D)**: For regulatory changes or partial revisions — executes chapter-level diff updates against an existing handbook without regenerating the full document.
 
-- **Quick Lookup (Mode B)**: For point-fact questions — minimum wage, overtime rates, probation period, social-security ratios, severance — it performs targeted retrieval against official sources and returns a concise answer with source links and effective dates;
-- **Practice Q&A (Mode C)**: For scenario-based operational questions — how to terminate compliantly in Germany, how to assign expatriates to Singapore, how to execute large-scale layoffs in France — it returns an actionable plan structured as "Compliance steps + Risk points + Required documents";
-- **Incremental Update (Mode D)**: For regulatory changes or partial revisions, it executes chapter-level diff updates against existing handbooks without regenerating the full document.
-
-Output is consistently organized around "what enterprises do, when, by whom, and at what risk", covering recruitment access, work permits, visas/residence, compensation, personal income tax, social security and provident fund, employment contracts, termination and layoffs, leave, unions and employee handbook, data compliance, labor disputes, and forex/cross-border payments. It clearly distinguishes five rule tiers — **legal mandate / official enforcement practice / market convention / company discretion / requires professional review** — and addresses the differing rules applicable to local versus foreign employees separately, never blending them.
+Output is consistently organized around "what enterprises do, when, by whom, and at what risk", covering recruitment access, work permits, visas/residence, compensation, personal income tax, social security and provident fund, employment contracts, termination and layoffs, leave, unions and employee handbook, data compliance, labor disputes, and forex/cross-border payments. It clearly distinguishes five rule tiers — **legal mandate / official enforcement practice / market convention / company discretion / requires professional review** — and addresses the differing rules applicable to local versus foreign employees separately.
 
 ## Applicable Scenarios
 
@@ -102,6 +101,32 @@ To improve output quality, also provide:
 - Existing internal policies, EOR agreements, or local-counsel input (if any);
 - Issues of particular focus (termination flow, foreign work permits, cross-border data).
 
+### Provide Existing Materials (Optional)
+
+If you already have source materials (legal texts, government guidance, law-firm reports), pass them to the Skill alongside your request:
+
+```text
+Generate a South Korea employment compliance handbook based on the following materials:
+[paste content or provide file paths]
+```
+
+The Skill will read the existing materials first, then perform targeted searches only for gaps — avoiding duplicate work and shortening end-to-end generation time.
+
+### Audience Profile (Optional)
+
+Different audiences need different content depth. Specifying the audience tunes emphasis accordingly:
+
+| Audience | Content Focus | Depth |
+|:---------|:---------|:-----|
+| HQ Legal / Compliance | Legal text, risk analysis, penalty exposure | High |
+| Local HR Operations | Operational steps, deadlines, checklists, calculation examples | Very high |
+| Expatriate employees | Personal entitlements, tax preferences, visa procedures | Medium |
+| Management decision-makers | Cost overview, risk tiers, compliance priorities | Low |
+
+```text
+Generate a South Korea employment compliance handbook for local HR operations use.
+```
+
 ## Service Stance
 
 This Skill serves enterprise internal management decisions and policy implementation.
@@ -158,6 +183,17 @@ flowchart TD
 9. **Three-stage quality validation**  
    Structure pass (numbering, headings, chapter completeness) → Content pass (gaps, tables, links) → Practice pass (numbers, steps, executability), each pass run independently.
 
+### Mode D Sub-Flow (Incremental Update)
+
+For point-regulatory-change or partial-revision requests, Mode D bypasses the full 9-step process:
+
+1. Read the existing handbook file and locate impacted sections;
+2. Identify related chapters (e.g., a minimum wage change cascades into Compensation, Recruitment, Contract, Risk Warnings);
+
+3. Retrieve the latest regulations and official interpretations;
+4. Output a diff (old → new + change notes + source);
+5. Apply the diff to the handbook file; bump the version number and effective date.
+
 ## Handbook Structure
 
 The full handbook follows a unified 14-chapter structure:
@@ -186,6 +222,28 @@ Each provision is structured in three layers: **Rules → Practice → Risk**:
 - **Risk layer**: common pitfalls, consequences of non-compliance, prevention recommendations.
 
 Every paragraph should contain at least one of: a specific number (amount, ratio, days, deadline), a specific operational step, a specific legal-clause citation, or a specific risk scenario.
+
+### Chapter Scale Guidance
+
+Target volume varies by chapter and by the country's complexity on each topic:
+
+| Chapter | Target Lines | Notes |
+|:-----|:--------:|:-----|
+| Preface | 15–25 | Concise statement |
+| Country Overview | 50–80 | 2–3 tables dominate |
+| Recruitment | 120–180 | Visas, background checks, offers are the focus |
+| Compensation | 150–250 | Overtime calculation and wage payment are core |
+| Employment Contract (incl. termination) | 200–350 | Highest-risk module — operation-grade detail required |
+| Other chapters | 30–200 | Adjusted to topic complexity |
+
+### Output Format
+
+Handbooks use Lark-compatible Markdown, with:
+
+- **Six fixed icon conventions**: 📢 Legal update warning ｜ ⚠️ Risk alert ｜ ❗ Caution ｜ 📋 Practice point ｜ ✅ Compliant practice ｜ ❌ Violation/Prohibited
+- **Strict hierarchical numbering**: `1` → `1.1` → `1.1.1` → `1.1.1.1`
+- **Comparison tables**: local vs foreign, mainstream vs special-jurisdiction
+- **Key regulations linked to official sources**: clickable through to the original text.
 
 ## Source Discipline
 
@@ -288,12 +346,84 @@ update the "Annual Leave" and "Sick Leave" sections of our existing UAE
 handbook and flag the changes.
 ```
 
+### Mode B Sample Output
+
+For point-fact queries like "What's the maximum probation period in South Korea?", the Skill returns something like:
+
+```text
+South Korea probation rules:
+
+📋 Core rules
+- Maximum duration: 3 months (Labor Standards Act Article 34)
+- Special case: for fixed-term contracts under 2 years, probation cannot exceed 1/2 of the contract term
+- Termination during probation: requires just cause, but the burden of proof is relatively lenient
+
+⚠️ Risk alerts
+- Conversion to regular employment is automatic at the end of probation; no extra paperwork
+- Termination during probation still requires 30 days' notice or pay in lieu
+- Probation wages must be at least 90% of regular wages
+
+Legal basis: Labor Standards Act Articles 34 and 26
+```
+
+> The above is illustrative — **actual numbers must be confirmed against the latest official sources at retrieval time**.
+
+## FAQ
+
+### Q1: Where are generated handbooks saved?
+
+By default, in the skill's own directory (relative path, so the skill can be renamed/moved):
+`<skill directory>/[Country]_Employment_Compliance_Handbook_YYYYMMDD_Vx.x.md`
+
+### Q2: How do I update an existing handbook?
+
+Use Mode D incremental update:
+
+```text
+Update the minimum wage section of the South Korea handbook to 2026 latest data.
+```
+
+The Skill auto-identifies related chapters and emits a diff — no need to regenerate the whole document.
+
+### Q3: How long does generating a full handbook take?
+
+Depends on the country's complexity and whether existing materials are provided:
+
+- **From scratch**: approximately 40–60+ minutes (based on internal testing);
+- **With existing materials provided**: shortened accordingly, depending on completeness of the materials.
+
+### Q4: Which countries are supported?
+
+Any country/region in principle. Tested and verified: Japan, South Korea, Hong Kong (China), Singapore, Malaysia, Indonesia, Vietnam, Thailand, UAE (incl. DIFC), Saudi Arabia, USA (Federal & California), UK, Germany, France.
+
+### Q5: How is legal accuracy ensured?
+
+Through three layers (see [Anti-Hallucination Mechanism](#anti-hallucination-mechanism) above):
+
+1. Source priority: government sites and official legal text > top-tier law firms / Big Four > others;
+2. Cross-validation of key numbers across multiple sources;
+3. Mandatory citation of all facts; explicit ⚠️ degradation marker when no official source can be retrieved.
+
+### Q6: Can the handbook be deployed directly to the enterprise?
+
+The handbook provides a compliance framework and operational guidance, but:
+
+- ⚠️ A licensed local attorney must review before formal use;
+- ⚠️ Laws may change — periodic updates are required (validity dates are noted in the handbook);
+- ⚠️ Edge cases require individual analysis based on the company's specifics.
+
+See [Disclaimer](#disclaimer) below.
+
 ## Roadmap
 
 - [x] English README (International Edition)
 - [ ] Multi-language handbook output (English / 日本語 / 한국어)
 - [ ] Integration with Claude Code Plugin Marketplace
 - [ ] Chapter template visual preview
+
+## Acknowledgments
+
+This Skill is continuously refined based on Global HR Alex Dou's experience in HR management at both Chinese and international enterprises, and in compiling employment compliance handbooks for Japan, Singapore, the UAE, and other jurisdictions.
 
 ## Contributing
 
@@ -324,4 +454,3 @@ Authors and contributors assume no responsibility for any legal or business cons
 - [Claude Code Official Documentation](https://docs.claude.com/en/docs/claude-code)
 - [Anthropic Skills Repository](https://github.com/anthropics/skills)
 - [Skill Development Guide](https://docs.claude.com/en/docs/claude-code/skills)
-
