@@ -1,10 +1,23 @@
 ---
 name: global-hr-compliance-playbook
-description: "全球人力合规与运营专家 - 生成海外用工合规手册、查询劳动法细节、解答合规实务问题"
+description: "Use when users need overseas HR compliance research, country employment compliance handbooks, labor law lookup, global hiring operations advice, or updates to existing HR compliance manuals."
 version: "1.0"
+allowed-tools:
+  - WebSearch
+  - WebFetch
+  - Read
+  - Edit
+  - Write
+  - Grep
 ---
 
 # Global HR Compliance Playbook - 全球人力合规手册
+
+## Overview
+
+一个面向海外人力合规与运营场景的 Skill，主要用于生成国家/地区用工合规手册、查询劳动法规细节，覆盖招聘、薪酬税务、社保、劳动合同、签证/工作许可、员工关系、数据合规等员工全生命周期议题。
+
+通过来源优先级控制、关键信息交叉验证、规则层级区分、Spec 对照检查及多层质量复核机制，提升法规检索与内容输出的准确性、权威性和可追溯性，降低 AI 幻觉及信息误用风险。
 
 ## When to use
 
@@ -13,6 +26,43 @@ version: "1.0"
 - 查询特定国家的劳动法规定（如：签证、加班费、试用期、解雇赔偿）
 - 解答具体的海外 HR 合规实务问题（如何解雇、如何派驻、如何裁员）
 - 对已有合规手册进行审查、补充或增量更新
+
+## When not to use
+
+不要在以下场景触发或继续使用本 Skill：
+- 用户仅要求中国境内 HR 制度、国内劳动法或国内员工关系问题，且不涉及海外用工。
+- 用户仅要求翻译、润色、排版或格式转换，不涉及 HR 合规判断。
+- 用户要求出具最终法律意见、替代当地律师签字确认，或要求规避当地强制性法律义务。
+- 用户提供未脱敏的员工个人敏感信息，且该信息并非完成任务所必需。
+- 用户要求基于未经核验的传闻、非权威材料或模型记忆直接输出确定性法规结论。
+
+## Input validation
+
+在输出合规结论前，先确认或合理推定以下输入；缺失时必须说明假设，并给出条件性结论：
+- 国家/地区，以及是否涉及特殊司法管辖区（如美国州法、阿联酋 DIFC/ADGM）。
+- 员工类型：本地员工、外籍员工、派驻员工、EOR 员工、独立承包商、实习生等。
+- 法定雇主、发薪主体、实际工作地点及拟适用合同法律。
+- 具体议题：招聘、合同、薪酬、个税、社保、签证/工作许可、解雇、裁员、数据合规等。
+- 是否已有内部政策、EOR 协议、当地律师意见或供应商材料。
+
+若问题涉及个案解雇、裁员、签证拒签、税务居民身份、社保豁免、数据跨境或处罚后果，必须提示需 Legal / Tax / Finance / visa vendor / EOR provider / local counsel 复核。
+
+## Error handling
+
+遇到信息不足、来源冲突或工具限制时，按以下规则处理：
+- 如果未检索到官方来源，明确写明“未检索到官方来源”，并将结论标记为待 Legal / vendor / official authority 确认。
+- 如果搜索工具不可用，不得伪称已检索；可基于模型知识给出初步判断，但必须标注“需人工核实”。
+- 如果官方来源与二手解读冲突，以最新有效的官方来源为准；仍无法判断时，列出冲突点和待确认事项。
+- 如果不同官方机构口径不一致，优先采用直接主管机构口径；仍有分歧时，不得输出确定性结论。
+- 如果关键输入缺失且无法合理推定，先提出必要澄清问题；如需继续输出，必须列明适用假设。
+
+## Permissions and tool use
+
+本 Skill 允许使用 `allowed-tools` 中列明的检索、读取、编辑和写入工具。执行时遵守以下原则：
+- 优先使用 WebSearch / WebFetch 获取最新官方法规、政府指南、监管口径和权威解读。
+- 使用 Read / Grep 按需读取本 Skill 的规范文件，不预加载无关文件。
+- 在完整手册生成模式下，使用 Edit / Write 将研究结果实时写入草稿和最终手册。
+- 不写入 API key、密码、员工身份证件号、薪酬明细等敏感信息；处理 HR 数据时应最小化个人信息。
 
 ## Mode dispatch（分支判断）
 
@@ -26,6 +76,46 @@ version: "1.0"
 | **D. 增量更新** | 用户提供已有手册，要求更新某一节或基于法规变更调整 | 跳到 3.13 增量更新机制，按 diff 流程处理 |
 
 > 模式 B/C 不强制创建草稿文件 / 最终手册文件。但仍遵守 1.2 输出准则与 3.4 信息来源规范（来源标注、不确定性提示、专业复核提示）。
+
+## Quality controls
+
+执行任何法规检索或手册输出时，必须使用以下质量控制动作：
+- 先检索官方来源，再使用律所、四大或咨询机构解读作为补充。
+- 对关键数字、期限、比例、赔偿公式、签证条件、社保税率等信息执行交叉验证。
+- 明确区分法律强制要求、官方执法实践、市场惯例、企业自主规则和待专业复核事项。
+- 对每章输出执行 Spec 对照检查，确认必答问题、表格、来源、计算示例和风险提示完整。
+- 在最终手册完成后执行结构 pass、内容 pass 和实务 pass，不得跳过质量验证。
+
+## Examples
+
+完整手册生成：
+
+```text
+使用 global-hr-compliance-playbook，帮我生成一份新加坡用工合规手册。
+重点覆盖本地员工与外籍员工的差异、EP / S Pass / Work Permit、CPF、个税、劳动合同、解雇和数据合规。
+所有关键数字请标注 MOM、IRAS、CPF Board 等官方来源；无法确认的事项列入待复核清单。
+```
+
+法规快查：
+
+```text
+韩国 2026 年最低工资标准是多少？
+请说明适用范围、生效日期、官方来源，以及 HR 在薪酬调整中需要注意的事项。
+```
+
+实务咨询：
+
+```text
+我们计划在德国解除一名工作 8 年员工的劳动合同，非过失性原因。
+请说明合规步骤、通知期、所需文件、补偿金口径、主要风险，以及需要本地律师确认的事项。
+```
+
+增量更新：
+
+```text
+请基于最新法规更新阿联酋用工合规手册中“年假”和“病假”章节。
+输出旧口径、新口径、影响章节、来源链接和待确认事项。
+```
 
 ## Workflow（模式 A 完整流程）
 
@@ -207,3 +297,30 @@ auto compact 会无预警压缩早期对话内容，任何未写入文件的研�
 ## 6. 注意事项
 
 #[[file:6_meta/notes.md]]
+
+---
+
+## References / See Also
+
+按需读取以下资源文件，不要一次性预加载全部内容：
+
+```text
+1_core/identity.md - 角色定位
+1_core/capabilities.md - 核心能力范围
+1_core/output_principles.md - 输出准则、规则层级和降级策略
+2_tools/web_tools.md - 网页检索与内容提取工具说明
+2_tools/usage_principles.md - 官方优先、交叉验证、时效确认和来源标注
+3_workflow/research_process.md - 三阶段研究流程和草稿落盘规范
+3_workflow/source_standards.md - 来源优先级和冲突处理原则
+3_workflow/quality_validation.md - Spec 对照检查和三阶段质量验证
+3_workflow/incremental_update.md - 已有手册的增量更新流程
+4_output/structure.md - 14 章手册结构
+4_output/content_layers.md - 规则层、实务层、风险层内容分层
+5_spec/mandatory_questions.md - 每份手册必须回答的问题下限
+5_spec/chapters/ - 各章节的详细输出规格
+```
+
+可选集成：
+- 如当前环境提供 Web Search / Web Fetch / browser MCP Server，优先用于官方来源检索和网页内容提取。
+- 如当前环境提供文档或表格类 Skill，可在手册完成后用于生成 Word、Markdown、Feishu-ready 或 Excel 管理清单。
+- 本 Skill 不依赖特定 MCP Server；无可用外部检索工具时，必须执行降级标注，不得伪造来源。

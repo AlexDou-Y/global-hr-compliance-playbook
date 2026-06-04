@@ -1,4 +1,4 @@
-# Global HR Compliance Playbook — 架构文档
+﻿# Global HR Compliance Playbook — 架构文档
 
 **版本**: V1.0 | **更新日期**: 2026-05-31
 
@@ -14,7 +14,7 @@ Global HR Compliance Playbook 是一个面向 Claude Code 的原子化 Skill，�
 
 ## 目录结构
 
-```
+```text
 global-hr-compliance-playbook/
 │
 ├── skill.md                        # 主入口（组装所有模块）
@@ -170,7 +170,7 @@ global-hr-compliance-playbook/
 
 ## 数据流
 
-```
+```text
 用户请求（目标国家/地区）
         │
         ▼
@@ -263,7 +263,7 @@ global-hr-compliance-playbook/
 
 ### 5. 来源优先级
 
-```
+```text
 官方政府网站、官方法律文本
         ↓
 政府指南、四大会计师事务所、知名律所

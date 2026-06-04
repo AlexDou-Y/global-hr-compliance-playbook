@@ -1,4 +1,4 @@
-# Global HR Compliance Playbook Skill - 更新日志
+﻿# Global HR Compliance Playbook Skill - 更新日志
 
 ## V1.0 (2026-05-27) - 首次公开发布
 
@@ -81,7 +81,7 @@
 
 ### 文件结构
 
-```
+```text
 global-hr-compliance-playbook/
 ├── 3_workflow/
 │   ├── incremental_update.md (新增)

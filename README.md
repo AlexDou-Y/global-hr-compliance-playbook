@@ -7,9 +7,11 @@
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-orange.svg)](https://docs.claude.com/en/docs/claude-code)
 [![Language](https://img.shields.io/badge/lang-English-blue.svg)](README.md)
 
-> Global HR Compliance & Operations Expert — A Claude Code Skill for generating country-specific employment compliance handbooks, querying local labor law details, and answering overseas HR practical questions.
+> Global HR Compliance & Operations Expert — A Skill for overseas HR compliance and operations scenarios, designed to generate country/region employment compliance handbooks, query labor law details, and support cross-border employment practice analysis and incremental handbook updates.
 
-This Skill is built on the long-term frontline experience of overseas HR practitioners in multinational HR management, together with the methodology accumulated from compiling employment compliance handbooks for China, Japan, Singapore, the UAE, and other jurisdictions. Their core competencies — framework design, research logic, information verification, content organization, linguistic style, formatting conventions, and operational guidance — have been systematically distilled into a reproducible and iterable AI Skill. Through anti-hallucination mechanisms — "mandatory source citation," "explicit uncertainty degradation," and "three-stage quality cross-validation (Structure pass → Content pass → Practice pass)" — it constrains AI output for accuracy, stability, and traceability, helping enterprise HR teams quickly generate jurisdiction-specific employment compliance handbooks.
+This Skill is built on the long-term practical experience of overseas HR practitioners in multinational HR management, together with the methodology accumulated from compiling employment compliance handbooks for China, Japan, Singapore, the UAE, and other countries or regions. It systematically distills key capabilities in framework design, research logic, information verification, content organization, writing style, formatting standards, and operational guidance into a reproducible and iterative AI Skill.
+
+It covers the full employee lifecycle, including recruitment, compensation and tax, social security, employment contracts, visas/work permits, employee relations, and data compliance, with a focus on enterprise overseas employment compliance research, policy development, and HR operational implementation. Through source-priority control, cross-verification of key information, rule-tier classification, Spec-based checks, and multi-layer quality review, the Skill improves the accuracy, authority, and traceability of legal research and content output, while reducing AI hallucination and information misuse risks.
 
 ## What It Does
 
